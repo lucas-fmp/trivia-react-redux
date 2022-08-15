@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import QuestionBoard from '../components/QuestionBoard';
 import fetchQuestions from '../services/fetchApi';
 import ButtonNext from '../components/ButtonNext';
+import triviaImg from '../trivia.png';
 
 class Game extends Component {
   constructor() {
@@ -12,6 +13,8 @@ class Game extends Component {
       questions: undefined,
       questionIdx: 0,
       selectedAnswer: null,
+      borderEnable: false,
+      alreadyIncremented: false,
     };
   }
 
@@ -37,7 +40,9 @@ class Game extends Component {
     }
   }
 
-  selectAnswer = (selectedAnswer) => this.setState({ selectedAnswer })
+  selectAnswer = (selectedAnswer) => this.setState(
+    { selectedAnswer, alreadyIncremented: true },
+  )
 
   getNextQuestion = () => {
     const { questionIdx } = this.state;
@@ -46,27 +51,45 @@ class Game extends Component {
     if (questionIdx === questionsLength) {
       history.push('/feedback');
     }
-    this.setState((prev) => ({ questionIdx: prev.questionIdx + 1 }));
+    this.setState((prev) => ({
+      questionIdx: prev.questionIdx + 1,
+      borderEnable: !prev.borderEnable,
+      alreadyIncremented: false,
+    }
+    ));
+  }
+
+  activeBorder = () => {
+    this.setState({
+      borderEnable: true,
+    });
   }
 
   render() {
-    const { questions, questionIdx, selectedAnswer } = this.state;
+    const { questions, questionIdx, selectedAnswer,
+      borderEnable, alreadyIncremented } = this.state;
     return (
       <div>
         <Header />
-        <main>
-          Trivia
-          {
-            questions && <QuestionBoard
-              questionInfo={ questions.results[questionIdx] }
-              selectAnswer={ this.selectAnswer }
-            />
-          }
-          {
-            selectedAnswer && <ButtonNext
-              getNextQuestion={ this.getNextQuestion }
-            />
-          }
+        <main className="game-board">
+          <div className="trivia-img">
+            <img src={ triviaImg } alt="trivia" />
+          </div>
+          <div className="question-board">
+            {
+              questions && <QuestionBoard
+                questionInfo={ questions.results[questionIdx] }
+                selectAnswer={ this.selectAnswer }
+                border={ { borderEnable, activeBorder: this.activeBorder } }
+                alreadyIncremented={ alreadyIncremented }
+              />
+            }
+            {
+              selectedAnswer && <ButtonNext
+                getNextQuestion={ this.getNextQuestion }
+              />
+            }
+          </div>
         </main>
       </div>
     );

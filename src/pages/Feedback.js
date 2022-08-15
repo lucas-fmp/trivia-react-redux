@@ -41,28 +41,38 @@ class Feedback extends Component {
   render() {
     const { url, name, score } = this.state;
     return (
-      <div>
-        <header>
-          <img alt="profile" src={ url } data-testid="header-profile-picture" />
-          <h3 data-testid="header-score">{score}</h3>
-          <h2 data-testid="header-player-name">{name}</h2>
+      <div className="feedback-section">
+        <header className="header-section">
+          <div className="profile-section">
+            <img alt="profile" src={ url } data-testid="header-profile-picture" />
+            <p data-testid="header-player-name">{name}</p>
+          </div>
+          <div className="score-section">
+            <p data-testid="header-score">
+              score:
+              {' '}
+              {score}
+            </p>
+          </div>
         </header>
         <FeedbackText />
         <FeedbackBoard />
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ this.redirectToHome }
-        >
-          Jogar Novamente
-        </button>
-        <button
-          data-testid="btn-ranking"
-          type="button"
-          onClick={ this.redirectToRanking }
-        >
-          Ranking
-        </button>
+        <div className="buttons-section">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ this.redirectToHome }
+          >
+            Jogar Novamente
+          </button>
+          <button
+            data-testid="btn-ranking"
+            type="button"
+            onClick={ this.redirectToRanking }
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }

@@ -7,15 +7,18 @@ class FeedbackBoard extends Component {
     const { playerInfo: { score, assertions } } = this.props;
     return (
       <div>
-        FeedbackBoard
         <p
           data-testid="feedback-total-score"
         >
+          score:
+          {' '}
           { score }
         </p>
         <p
           data-testid="feedback-total-question"
         >
+          acertos:
+          {' '}
           { assertions }
         </p>
       </div>

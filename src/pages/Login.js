@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchToken } from '../services/fetchApi';
 import { login } from '../redux/actions';
+import triviaImg from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -47,42 +48,45 @@ class Login extends Component {
     const { name, email, buttonState } = this.state;
     const { login: loginAction } = this.props;
     return (
-      <form>
-        <input
-          type="text"
-          placeholder="Insira seu nome"
-          data-testid="input-player-name"
-          onChange={ this.handleChange }
-          name="name"
-          value={ name }
-        />
-        <input
-          type="email"
-          placeholder="Insira seu email"
-          data-testid="input-gravatar-email"
-          onChange={ this.handleChange }
-          name="email"
-          value={ email }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ buttonState }
-          onClick={ () => {
-            loginAction(this.state);
-            this.saveToken();
-          } }
-        >
-          Play
-        </button>
-        <button
-          data-testid="btn-settings"
-          type="button"
-          onClick={ this.goToSettings }
-        >
-          Settings
-        </button>
-      </form>
+      <div className="login-page">
+        <form>
+          <img src={ triviaImg } alt="trivia" />
+          <input
+            type="text"
+            placeholder="Insira seu nome"
+            data-testid="input-player-name"
+            onChange={ this.handleChange }
+            name="name"
+            value={ name }
+          />
+          <input
+            type="email"
+            placeholder="Insira seu email"
+            data-testid="input-gravatar-email"
+            onChange={ this.handleChange }
+            name="email"
+            value={ email }
+          />
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ buttonState }
+            onClick={ () => {
+              loginAction(this.state);
+              this.saveToken();
+            } }
+          >
+            Play
+          </button>
+          <button
+            data-testid="btn-settings"
+            type="button"
+            onClick={ this.goToSettings }
+          >
+            Settings
+          </button>
+        </form>
+      </div>
     );
   }
 }

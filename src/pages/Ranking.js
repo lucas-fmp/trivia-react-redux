@@ -44,7 +44,7 @@ class Ranking extends Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
+      <div className="ranking-section">
         <h1 data-testid="ranking-title">
           Ranking
         </h1>
@@ -61,8 +61,16 @@ class Ranking extends Component {
               [...ranking].sort((a, b) => b.score - a.score).map((user, index) => (
                 <li key={ index }>
                   <img alt="button-power" src={ user.picture } />
-                  <p data-testid={ `player-name-${index}` }>{user.name}</p>
-                  <p data-testid={ `player-score-${index}` }>{user.score}</p>
+                  <p data-testid={ `player-name-${index}` }>
+                    nome:
+                    {' '}
+                    {user.name}
+                  </p>
+                  <p data-testid={ `player-score-${index}` }>
+                    score:
+                    {' '}
+                    {user.score}
+                  </p>
                 </li>
               ))
             }

@@ -6,6 +6,7 @@ export default class ButtonNext extends Component {
     const { getNextQuestion } = this.props;
     return (
       <button
+        className="btn-next"
         data-testid="btn-next"
         type="button"
         onClick={ getNextQuestion }

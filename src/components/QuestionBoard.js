@@ -12,8 +12,6 @@ class QuestionBoard extends Component {
       seconds: 30,
       randomAnswers: [],
       question: '',
-      buttonState: false,
-      borderEnable: false,
     };
   }
 
@@ -42,14 +40,8 @@ class QuestionBoard extends Component {
     return testId;
   }
 
-  activeBorder = () => {
-    this.setState({
-      borderEnable: true,
-    });
-  }
-
   createClass = (testId) => {
-    const { borderEnable } = this.state;
+    const { border: { borderEnable } } = this.props;
     const border = borderEnable ? 'border' : '';
     const colorBorder = testId === 'correct-answer' ? 'colorGreen' : 'colorRed';
     return `${border} ${colorBorder}`;
@@ -86,9 +78,9 @@ class QuestionBoard extends Component {
   }
 
   verifyAnswer = (answer) => {
-    const { questionInfo } = this.props;
+    const { questionInfo, alreadyIncremented } = this.props;
     const { correct_answer: correctAnswer } = questionInfo;
-    if (correctAnswer === answer) {
+    if (correctAnswer === answer && !alreadyIncremented) {
       const { seconds } = this.state;
       this.incrementScore(questionInfo, seconds);
     }
@@ -96,7 +88,7 @@ class QuestionBoard extends Component {
 
   createButtons = (answers, correctAnswer) => {
     const { buttonState } = this.state;
-    const { selectAnswer } = this.props;
+    const { selectAnswer, border: { activeBorder } } = this.props;
     return (
       answers
         .map((answer, idx) => {
@@ -110,7 +102,7 @@ class QuestionBoard extends Component {
               disabled={ buttonState }
               name={ testId }
               onClick={ () => {
-                this.activeBorder();
+                activeBorder();
                 selectAnswer(answer);
                 this.verifyAnswer(answer);
               } }
@@ -158,7 +150,7 @@ class QuestionBoard extends Component {
         >
           {question}
         </p>
-        <div data-testid="answer-options">
+        <div data-testid="answer-options" className="answer-options">
           {
             this.createButtons(randomAnswers, correctAnswer)
           }
@@ -169,6 +161,11 @@ class QuestionBoard extends Component {
 }
 
 QuestionBoard.propTypes = {
+  alreadyIncremented: PropTypes.bool.isRequired,
+  border: PropTypes.shape({
+    borderEnable: PropTypes.bool.isRequired,
+    activeBorder: PropTypes.func.isRequired,
+  }).isRequired,
   questionInfo: PropTypes.shape({
     category: PropTypes.string,
     correct_answer: PropTypes.string,
@@ -176,8 +173,8 @@ QuestionBoard.propTypes = {
     question: PropTypes.string,
   }).isRequired,
   selectAnswer: PropTypes.func.isRequired,
-  setScore: PropTypes.func.isRequired,
   setAssertions: PropTypes.func.isRequired,
+  setScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

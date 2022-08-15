@@ -16,14 +16,22 @@ class Header extends Component {
     const { state } = this.props;
     const { player: { name, score } } = state;
     return (
-      <header>
-        <img
-          data-testid="header-profile-picture"
-          alt="profile"
-          src={ this.setGravatarSrc() }
-        />
-        <p data-testid="header-player-name">{name}</p>
-        <p data-testid="header-score">{score}</p>
+      <header className="header-section">
+        <div className="profile-section">
+          <img
+            data-testid="header-profile-picture"
+            alt="profile"
+            src={ this.setGravatarSrc() }
+          />
+          <p data-testid="header-player-name">{name}</p>
+        </div>
+        <div className="score-section">
+          <p data-testid="header-score">
+            score:
+            {' '}
+            {score}
+          </p>
+        </div>
       </header>
     );
   }
