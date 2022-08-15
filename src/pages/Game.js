@@ -12,7 +12,7 @@ class Game extends Component {
     this.state = {
       questions: undefined,
       questionIdx: 0,
-      selectedAnswer: null,
+      nextEnable: false,
       borderEnable: false,
       alreadyIncremented: false,
     };
@@ -40,8 +40,8 @@ class Game extends Component {
     }
   }
 
-  selectAnswer = (selectedAnswer) => this.setState(
-    { selectedAnswer, alreadyIncremented: true },
+  selectAnswer = () => this.setState(
+    { nextEnable: true, alreadyIncremented: true },
   )
 
   getNextQuestion = () => {
@@ -55,6 +55,7 @@ class Game extends Component {
       questionIdx: prev.questionIdx + 1,
       borderEnable: !prev.borderEnable,
       alreadyIncremented: false,
+      nextEnable: false,
     }
     ));
   }
@@ -66,7 +67,7 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, questionIdx, selectedAnswer,
+    const { questions, questionIdx, nextEnable,
       borderEnable, alreadyIncremented } = this.state;
     return (
       <div>
@@ -85,7 +86,7 @@ class Game extends Component {
               />
             }
             {
-              selectedAnswer && <ButtonNext
+              nextEnable && <ButtonNext
                 getNextQuestion={ this.getNextQuestion }
               />
             }

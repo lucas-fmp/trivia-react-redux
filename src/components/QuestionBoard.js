@@ -103,7 +103,7 @@ class QuestionBoard extends Component {
               name={ testId }
               onClick={ () => {
                 activeBorder();
-                selectAnswer(answer);
+                selectAnswer();
                 this.verifyAnswer(answer);
               } }
             >
